@@ -1,4 +1,5 @@
 
+
 class Publisher:
 
     def __init__(self):
@@ -39,7 +40,12 @@ class NewsChannel(Publisher):
 
     def notify_all(self):
         for user in self.__registered_users:
-            user.notify()
+            user.notify(self.news)
+
+    def publish_news(self, news):
+        if news:
+            self.news = news
+            self.notify_all()
 
 
 class User(Subscriber):
@@ -47,8 +53,8 @@ class User(Subscriber):
     def __init__(self):
         pass
 
-    def notify(self):
-        print 'user1 notification'
+    def notify(self, news):
+        print 'user1: ' +  news
 
 
 class User2(Subscriber):
@@ -56,8 +62,8 @@ class User2(Subscriber):
     def __init__(self):
         pass
 
-    def notify(self):
-        print 'user2 notification'
+    def notify(self, news):
+        print 'user2: ' + news
 
 
 if __name__ == '__main__':
@@ -66,4 +72,5 @@ if __name__ == '__main__':
     news_channel = NewsChannel()
     news_channel.register_user(user)
     news_channel.register_user(user2)
-    news_channel.notify_all()
+    news_channel.publish_news('News Headline!')
+    news_channel.publish_news('Another News Headline!')
